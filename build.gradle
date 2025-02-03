@@ -1,123 +1,86 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
 plugins {
-    id 'java'
-    id 'maven-publish'
-    id "com.github.node-gradle.node" version "7.0.0"
-    id 'com.enonic.xp.app' version '3.4.0'
-    id 'no.item.xp.codegen' version '2.2.2'
+  id "com.enonic.xp.app" version "3.5.2"
+  id "com.github.node-gradle.node" version "7.1.0"
 }
 
 app {
-    name = "${appName}"
-    displayName = "${appDisplayName}"
-    vendorName = "${vendorName}"
-    vendorUrl = "${vendorUrl}"
-    systemVersion = "${xpVersion}"
+  name = "${appName}"
+  displayName = "${appDisplayName}"
+  vendorName = "${vendorName}"
+  vendorUrl = "${vendorUrl}"
+  systemVersion = "${xpVersion}"
 }
 
 dependencies {
-    include "com.enonic.xp:lib-event:${xpVersion}"
-    include "com.enonic.xp:lib-content:${xpVersion}"
-    include "com.enonic.xp:lib-portal:${xpVersion}"
-    include "com.enonic.lib:lib-thymeleaf:2.1.0"
-    include "com.gravitondigital:featuretogglelib:0.1.0"
-    include "com.enonic.lib:lib-react4xp:4.0.2-B2"
+  include "com.enonic.xp:lib-event:${xpVersion}"
+  include "com.enonic.xp:lib-content:${xpVersion}"
+  include "com.enonic.xp:lib-portal:${xpVersion}"
+  include "no.item:lib-xp-time:1.1.0"
+  include "com.github.tineikt:xp-lib-freemarker:2.0.3"
+  include "no.item:lib-xp-feature-toggle:0.4.0"
+  webjar "org.webjars.npm:hotwired__turbo:8.0.12"
 }
 
 repositories {
-    maven {
-        url "https://repo1.maven.org/maven2/"
-    }
-    mavenLocal()
-    mavenCentral()
-    xp.enonicRepo()
-    maven { url 'https://jitpack.io' }
+  mavenLocal()
+  mavenCentral()
+  xp.enonicRepo()
+  maven { url "https://repo.itemtest.no/releases" }
+  maven { url "https://jitpack.io" }
 }
 
 node {
-    download = true
-    version = '18.12.1'
+  download = true
+  version = "22.12.0"
 }
-
-task clientWebpack( type: NodeTask, dependsOn: npmInstall ) {
-    environment = [ 'NODE_ENV': nodeEnvironment() ]
-    args = [ '--config', 'webpack.client.config.js', '--color' ]
-    description = 'Build UI resources (js, css, etc).'
-    inputs.dir 'src/main'
-    outputs.dir "${buildDir}/resources/main"
-    script = file( 'node_modules/webpack-cli/bin/cli.js' )
-}
-
-task serverWebpack( type: NpxTask, dependsOn: npmInstall ) {
-    command  =  'webpack'
-    environment = [ 'NODE_ENV': nodeEnvironment() ]
-    args = [ '--config', 'webpack.server.config.js', '--color']
-    description = 'Build server JS.'
-    outputs.cacheIf { true }
-    inputs.dir 'src/main'
-    outputs.dir "${buildDir}/resources/main"
-}
-
-task react4xp(type: NpmTask, dependsOn: npmInstall) {
-    args = [
-            'run',
-            'build:react4xp' // This script must exist in the package.json file
-    ]
-    description 'Compile React4xp resources'
-    environment = [
-            'R4X_APP_NAME': "${appName}",
-            'R4X_BUILD_LOG_LEVEL': gradle.startParameter.logLevel.toString(),
-            'R4X_DIR_PATH_ABSOLUTE_PROJECT': project.projectDir.toString(),
-            'NODE_ENV': project.hasProperty('dev') || project.hasProperty('development') ? 'development' : 'production'
-    ]
-    group 'react4xp'
-    // It also watches package.json and package-lock.json :)
-    inputs.dir 'node_modules/@enonic/react4xp'
-    inputs.dir 'src/main/resources'
-    outputs.dir 'build/resources/main'
-}
-jar.dependsOn 'react4xp'
 
 processResources {
-    include '**/*'
-    exclude '**/.gitkeep'
-    exclude '**/tsconfig.*.json'
-    exclude '**/*.es'
-    exclude '**/*.es6'
-    exclude '**/*.ts'
-    exclude 'assets/js/**/*.js'
-    include 'assets/js/bundle.js'
-    exclude 'assets/styles/**/*.less'
-    exclude 'assets/styles/**/*.sass'
-    exclude 'assets/styles/**/*.scss'
-    includeEmptyDirs false
+	exclude "**/.gitkeep"
+  exclude "**/*.json"
+	exclude "**/*.ts"
+	exclude "**/*.tsx"
 }
 
-jar {
-    exclude 'assets/styles/**/*.less'
-    exclude 'assets/styles/**/*.sass'
-    exclude 'assets/styles/**/*.scss'
-    exclude 'assets/styles/**/*.js'
-
-    dependsOn += npmInstall
-    dependsOn += clientWebpack
-    dependsOn += serverWebpack
+tasks.register("dev", Exec) {
+  if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+    commandLine "cmd", "/c", "gradlew.bat", "deploy", "-t"
+  } else {
+    commandLine "./gradlew", "deploy", "-t"
+  }
 }
 
-def nodeEnvironment() {
-    def environments = [ prod : 'production', dev: 'development' ]
-    def nodeEnv = environments[hasProperty( 'env' ) ? env : 'prod']
-    return nodeEnv != null ? nodeEnv : 'production'
+tasks.register("npmBuild", NpmTask) {
+  args = [
+    "run",
+    "--silent",
+    "build"
+  ]
+  dependsOn npmInstall
+  environment = [
+    "FORCE_COLOR": "true",
+    "LOG_LEVEL_FROM_GRADLE": gradle.startParameter.logLevel.toString(),
+    "NODE_ENV": project.hasProperty("dev") || project.hasProperty("development") ? "development" : "production"
+  ]
+  inputs.dir "src/main/resources"
+  outputs.dir "build/resources/main"
+  outputs.upToDateWhen { false }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            groupId group
-            artifactId projectName
-            version version
-        }
-    }
+jar.dependsOn npmBuild
+
+tasks.register("npmCheck", NpmTask) {
+	dependsOn npmInstall
+	args = [
+		"run",
+		"check"
+	]
+	environment = [
+		"FORCE_COLOR": "true",
+	]
+}
+
+check.dependsOn npmCheck
+
+tasks.withType(Copy).configureEach {
+  includeEmptyDirs = false
 }

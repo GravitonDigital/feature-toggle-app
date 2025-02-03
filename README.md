@@ -2,7 +2,7 @@
 
 This is a feature toggle application for Enonic XP. It allows you to create feature toggles and use them in your applications.
 
-[![](https://jitpack.io/v/no.item/feature-toggle-app.svg)](https://jitpack.io/#no.item/feature-toggle-app)
+[![](https://repo.itemtest.no/api/badge/latest/releases/no/item/xp-feature-toggle)](https://repo.itemtest.no/#/releases/no/item/xp-feature-toggle)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/ItemConsulting/feature-toggle-app/raw/main/src/main/resources/admin/tools/featuretoggle/featuretoggle.svg?sanitize=true">
@@ -13,7 +13,7 @@ This is a feature toggle application for Enonic XP. It allows you to create feat
 
 ### Building
 
-To build he project run the following code
+To build the project run the following code
 
 ```bash
 enonic project build
@@ -24,9 +24,11 @@ enonic project build
 Deploy locally for testing purposes:
 
 ```bash
-enonic project deploy
+./gradlew publishToMavenLocal
 ```
-## Deploy to Jitpack
 
-Go to the [Jitpack page for feature-toggle-app](https://jitpack.io/#no.item/feature-toggle-app) to deploy from GitHub (after
-[creating a new versioned release](https://github.com/ItemConsulting/feature-toggle-app/releases/new)).
+## Deploy to Maven
+
+```bash
+./gradlew publish -P com.enonic.xp.app.production=true
+```
