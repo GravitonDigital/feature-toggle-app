@@ -12,12 +12,13 @@ app {
 }
 
 dependencies {
+  include "com.enonic.xp:lib-admin:${xpVersion}"
   include "com.enonic.xp:lib-event:${xpVersion}"
   include "com.enonic.xp:lib-content:${xpVersion}"
   include "com.enonic.xp:lib-portal:${xpVersion}"
-  include "no.item:lib-xp-time:1.1.0"
+  include "no.item:lib-xp-time:1.2.0"
   include "com.github.tineikt:xp-lib-freemarker:2.0.3"
-  include "no.item:lib-xp-feature-toggle:0.4.0"
+  include "no.item:lib-xp-feature-toggles:0.5.0-SNAPSHOT"
   webjar "org.webjars.npm:hotwired__turbo:8.0.12"
 }
 

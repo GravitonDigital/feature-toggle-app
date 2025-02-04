@@ -1,6 +1,5 @@
 export type Header = {
-  title: string;
-  displayName: string;
+  locale: string;
   currentAppKey: string;
   filters: Link[];
 };

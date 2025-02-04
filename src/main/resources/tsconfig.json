@@ -10,7 +10,6 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "/lib/featureToggle": ["../../../node_modules/@item-enonic-types/lib-feature-toggles"],
       "/lib/tineikt/freemarker": ["../../../node_modules/@item-enonic-types/lib-freemarker"],
       "/lib/xp/*": ["../../../node_modules/@enonic-types/lib-*"],
       "/lib/*": ["./lib/*", "../../../node_modules/@item-enonic-types/lib-*"],

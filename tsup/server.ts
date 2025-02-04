@@ -15,6 +15,7 @@ export default function buildServerConfig(): Options {
     ignore: ([] as string[]).concat(
       globSync(`${DIR_SRC_ASSETS}/**/*.ts`, GLOB_CONFIG),
       globSync(`${DIR_SRC}/**/*.stories.ts`, GLOB_CONFIG),
+      globSync(`${DIR_SRC}/**/*.freemarker.ts`, GLOB_CONFIG),
     ),
   });
 
@@ -26,7 +27,7 @@ export default function buildServerConfig(): Options {
   );
 
   return {
-    bundle: true,
+    bundle: false,
     dts: false, // d.ts files are use useless at runtime
     entry: SERVER_JS_ENTRY,
     env: {
@@ -48,7 +49,7 @@ export default function buildServerConfig(): Options {
     silent: ["QUIET", "WARN"].includes(process.env.LOG_LEVEL_FROM_GRADLE || ""),
 
     shims: false,
-    splitting: true,
+    splitting: false,
     sourcemap: false,
     target: "es5",
     tsconfig: `${DIR_SRC}/tsconfig.json`,

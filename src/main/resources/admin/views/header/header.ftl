@@ -1,9 +1,11 @@
-[#-- @ftlvariable name="displayName" type="String" --]
+[#-- @ftlvariable name="locale" type="String" --]
 [#-- @ftlvariable name="currentAppKey" type="String" --]
 [#-- @ftlvariable name="filters" type="java.util.ArrayList" --]
 
 <header class="header">
-  <h1 data-turbo-permanent="true">${displayName}</h1>
+  <h1>
+    [@localize key="feature-toggles.displayName" locale=locale /]
+  </h1>
 
   [#if filters?size > 1]
     <div class="header--toolbar">

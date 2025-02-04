@@ -28,6 +28,12 @@
     padding-block: var(--spacing-32);
     grid-template-columns: 1fr auto auto;
   }
+
+  .feature-toggles--form-toggle,
+  .feature-toggles--form-publish {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .feature--label {

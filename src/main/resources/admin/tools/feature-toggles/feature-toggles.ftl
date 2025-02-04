@@ -1,5 +1,9 @@
+[#-- @ftlvariable name="locale" type="String" --]
 [#-- @ftlvariable name="title" type="String" --]
 [#-- @ftlvariable name="features" type="java.util.ArrayList" --]
+[#-- @ftlvariable name="feature._name" type="String" --]
+[#-- @ftlvariable name="feature.createdDate" type="java.time.ZonedDateTime" --]
+[#-- @ftlvariable name="feature.enabled" type="Boolean" --]
 [#import "../../views/toggle/toggle.ftl" as Toggle]
 
 [#setting locale=locale]
@@ -17,7 +21,7 @@
 
   <script type="module" src="[@assetUrl path='hotwired__turbo/8.0.12/dist/turbo.es2017-esm.js'/]"></script>
 
-  <title>${title}</title>
+  <title>[@localize key="feature-toggles.displayName" locale=locale /]</title>
 </head>
 <body>
 <div class="feature-toggles">
@@ -25,32 +29,58 @@
     [#include "../../views/header/header.ftl"]
   </div>
   <div class="layout--content">
-      [#list features as feature]
-        [#assign toggleId="toggle-${feature_index}" /]
+    [#list features as feature]
+      [#assign toggleId="toggle-${feature_index}" /]
 
-        <label class="feature--label" for="${toggleId}">
-          <span class="feature--name">${feature._name}</span>
-          <span class="feature--description">[@localize key="feature-toggles.created" locale=locale /] ${feature.createdDate.format("MEDIUM_DATE")} ${feature.createdDate.format("SHORT_TIME")}</span>
-        </label>
-        <form class="feature-toggles--form-toggle">
-          [@Toggle.render
-            id=toggleId
-            name=feature._name
-            checked=feature.enabled /]
-        </form>
+      <label class="feature--label" for="${toggleId}">
+        <span class="feature--name">${feature._name}</span>
+        <span class="feature--description">[@localize key="feature-toggles.created" locale=locale /] ${feature.createdDate.format("MEDIUM_DATE")} ${feature.createdDate.format("SHORT_TIME")}</span>
+      </label>
+      <form
+        method="get"
+        class="feature-toggles--form-toggle">
 
-        <form class="feature-toggles--form-publish">
-          <button
-            class="button theme-accent"
-            type="submit"
-            name="publish"
-            [#-- TODO Use id --]
-            value="${feature._name}">
+        <input
+          type="hidden"
+          name="id"
+          value="${feature._name}">
 
-            Publish
-          </button>
-        </form>
-      [/#list]
+        [@Toggle.render
+          id=toggleId
+          name="enabled"
+          checked=feature.enabled /]
+
+        <button
+          type="submit"
+          name="form-id"
+          value="toggle"
+          class="button theme-accent">
+
+          [@localize key="feature-toggles.save" locale=locale /]
+        </button>
+      </form>
+
+      <form
+        method="get"
+        class="feature-toggles--form-publish">
+
+        <input
+          type="hidden"
+          name="id"
+          value="${feature._name}">
+
+        <button
+          class="button theme-accent"
+          type="submit"
+          name="form-id"
+          value="publish">
+
+          [@localize key="feature-toggles.publish" locale=locale /]
+        </button>
+      </form>
+    [#else]
+      <i>[@localize key="feature-toggles.noFeatures" locale=locale /]</i>
+    [/#list]
   </div>
 </div>
 </body>
