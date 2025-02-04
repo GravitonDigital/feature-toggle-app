@@ -1,6 +1,6 @@
 export type Header = {
   locale: string;
-  currentAppKey: string;
+  spaceKey: string;
   filters: Link[];
 };
 

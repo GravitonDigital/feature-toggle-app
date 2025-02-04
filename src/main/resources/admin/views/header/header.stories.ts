@@ -22,8 +22,7 @@ export default {
 
 export const header: StoryObj<Header> = {
   args: {
-    displayName: "Feature toggles",
-    currentAppKey: "no.item.www",
+    spaceKey: "no.item.www",
     filters: [
       {
         url: "#",

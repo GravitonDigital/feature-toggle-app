@@ -1,10 +1,13 @@
 [#-- @ftlvariable name="locale" type="String" --]
+[#-- @ftlvariable name="userCanPublish" type="Boolean" --]
 [#-- @ftlvariable name="title" type="String" --]
 [#-- @ftlvariable name="features" type="java.util.ArrayList" --]
 [#-- @ftlvariable name="feature.id" type="String" --]
 [#-- @ftlvariable name="feature.name" type="String" --]
+[#-- @ftlvariable name="feature.description" type="String" --]
 [#-- @ftlvariable name="feature.enabled" type="Boolean" --]
 [#-- @ftlvariable name="feature.createdDate" type="java.time.ZonedDateTime" --]
+[#-- @ftlvariable name="feature.isDraftAndMasterSame" type="Boolean" --]
 [#import "../../views/toggle/toggle.ftl" as Toggle]
 
 [#setting locale=locale]
@@ -37,7 +40,12 @@
         <span class="feature--name">${feature.name}</span>
         <span class="feature--description">
           [#if feature.createdDate?has_content]
-            [@localize key="feature-toggles.created" locale=locale /] ${feature.createdDate.format("MEDIUM_DATE")} ${feature.createdDate.format("SHORT_TIME")}
+            [@localize key="feature-toggles.created" locale=locale /]
+            <time datetime="${feature.createdDate.format()}">${feature.createdDate.format("MEDIUM_DATE")} ${feature.createdDate.format("SHORT_TIME")}</time>
+          [/#if]
+
+          [#if feature.description?has_content]
+            &mdash; ${feature.description}
           [/#if]
         </span>
       </label>
@@ -53,11 +61,12 @@
         [@Toggle.render
           id=toggleId
           name="enabled"
-          checked=feature.enabled /]
+          checked=feature.enabled
+          disabled=!(userCanPublish!false) /]
 
         <button
           type="submit"
-          name="form-id"
+          name="formId"
           value="toggle"
           class="button theme-accent">
 
@@ -74,14 +83,16 @@
           name="id"
           value="${feature.id}">
 
-        <button
-          class="button theme-accent"
-          type="submit"
-          name="form-id"
-          value="publish">
+        [#if !feature.isDraftAndMasterSame && userCanPublish!false]
+          <button
+            class="button theme-accent"
+            type="submit"
+            name="formId"
+            value="publish">
 
-          [@localize key="feature-toggles.publish" locale=locale /]
-        </button>
+            [@localize key="feature-toggles.publish" locale=locale /]
+          </button>
+        [/#if]
       </form>
     [#else]
       <i>[@localize key="feature-toggles.noFeatures" locale=locale /]</i>

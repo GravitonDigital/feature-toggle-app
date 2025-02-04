@@ -1,7 +1,14 @@
-import type { Feature } from "/lib/feature-toggles";
 import type { Header } from "/admin/views/header/header.freemarker";
+import type { ZonedDateTime } from "/lib/time";
 
 export type FreemarkerParams = Header & {
   locale: string;
-  features: Feature[];
+  userCanPublish: boolean;
+  features: {
+    id: string;
+    name: string;
+    enabled: boolean;
+    createdDate: ZonedDateTime;
+    isDraftAndMasterSame: boolean;
+  }[];
 };

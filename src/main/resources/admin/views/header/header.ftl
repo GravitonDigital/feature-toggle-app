@@ -1,5 +1,5 @@
 [#-- @ftlvariable name="locale" type="String" --]
-[#-- @ftlvariable name="currentAppKey" type="String" --]
+[#-- @ftlvariable name="spaceKey" type="String" --]
 [#-- @ftlvariable name="filters" type="java.util.ArrayList" --]
 
 <header class="header">
@@ -18,7 +18,7 @@
           <a
             class="pill"
             href="${filter.url}"
-            [#if filter.text == currentAppKey]aria-current="true"[/#if]>
+            [#if filter.text == spaceKey]aria-current="true"[/#if]>
 
             ${filter.text}
           </a>

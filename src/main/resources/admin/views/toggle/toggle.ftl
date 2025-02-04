@@ -1,11 +1,12 @@
-[#macro render id name checked]
+[#macro render id name checked disabled=false]
   <label class="toggle" for="${id}">
     <input
       type="checkbox"
       class="toggle__input"
       name="${name}"
       id="${id}"
-      [#if checked]checked[/#if]/>
+      [#if checked]checked[/#if]
+      [#if disabled]disabled[/#if]/>
 
     <span class="toggle-track">
       <span class="toggle-indicator">
