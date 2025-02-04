@@ -35,3 +35,7 @@ export default class FormSubmitOnChange extends HTMLElement {
     this.formEl?.requestSubmit();
   }
 }
+
+if (window.customElements.get("submit-form-on-change") === undefined) {
+  window.customElements.define("submit-form-on-change", FormSubmitOnChange);
+}

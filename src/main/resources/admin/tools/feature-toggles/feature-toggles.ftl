@@ -20,10 +20,11 @@
   <meta name="view-transition" content="same-origin" />
 
   <link rel="icon" href="[@assetUrl path='images/icon.svg'/]">
-  <link rel=”mask-icon” href=”[@assetUrl path='images/icon.svg'/]” color=”#000000">
+  <link rel="mask-icon" href=”[@assetUrl path='images/icon.svg'/]” color=”#000000">
   <link rel="stylesheet" href="[@assetUrl path='styles/main.min.css'/]" />
 
   <script type="module" src="[@assetUrl path='hotwired__turbo/8.0.12/dist/turbo.es2017-esm.js'/]"></script>
+  <script type="module" src="[@assetUrl path='scripts/form-submit-on-change.mjs'/]"></script>
 
   <title>[@localize key="feature-toggles.displayName" locale=locale /]</title>
 </head>
@@ -34,7 +35,7 @@
   </div>
   <div class="layout--content">
     [#list features as feature]
-      [#assign toggleId="toggle-${feature_index}" /]
+      [#assign toggleId="toggle-${feature.id}zz" /]
 
       <label class="feature--label" for="${toggleId}">
         <span class="feature--name">${feature.name}</span>
@@ -49,30 +50,35 @@
           [/#if]
         </span>
       </label>
-      <form
-        method="get"
-        class="feature-toggles--form-toggle">
 
-        <input
-          type="hidden"
-          name="id"
-          value="${feature.id}">
+      <turbo-frame id="turbo-frame-toggle-${feature.id}" refresh="morph">
+        <submit-form-on-change>
+          <form
+            method="get"
+            class="feature-toggles--form-toggle">
 
-        [@Toggle.render
-          id=toggleId
-          name="enabled"
-          checked=feature.enabled
-          disabled=!(userCanPublish!false) /]
+            <input
+              type="hidden"
+              name="formId"
+              value="toggle">
 
-        <button
-          type="submit"
-          name="formId"
-          value="toggle"
-          class="button theme-accent">
+            <input
+              type="hidden"
+              name="id"
+              value="${feature.id}">
 
-          [@localize key="feature-toggles.save" locale=locale /]
-        </button>
-      </form>
+            [@Toggle.render
+              id=toggleId
+              name="enabled"
+              checked=feature.enabled
+              disabled=!(userCanPublish!false) /]
+
+            <button type="submit" class="button theme-accent">
+              [@localize key="feature-toggles.save" locale=locale /]
+            </button>
+          </form>
+        </submit-form-on-change>
+      </turbo-frame>
 
       <form
         method="get"

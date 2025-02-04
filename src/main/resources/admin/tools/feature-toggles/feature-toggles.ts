@@ -28,10 +28,8 @@ type RequestParams = {
 
 export function all(req: Request<RequestParams>): Response {
   const isAdmin = hasRole("system.admin") || hasRole(PRINCIPAL_KEY_ADMIN);
-
   const locale = getLocale(req);
   const spaceKey = req.params.spaceKey;
-
   const spaces = getSpaces();
 
   // Handle toggle form
