@@ -1,9 +1,10 @@
 [#-- @ftlvariable name="locale" type="String" --]
 [#-- @ftlvariable name="title" type="String" --]
 [#-- @ftlvariable name="features" type="java.util.ArrayList" --]
-[#-- @ftlvariable name="feature._name" type="String" --]
-[#-- @ftlvariable name="feature.createdDate" type="java.time.ZonedDateTime" --]
+[#-- @ftlvariable name="feature.id" type="String" --]
+[#-- @ftlvariable name="feature.name" type="String" --]
 [#-- @ftlvariable name="feature.enabled" type="Boolean" --]
+[#-- @ftlvariable name="feature.createdDate" type="java.time.ZonedDateTime" --]
 [#import "../../views/toggle/toggle.ftl" as Toggle]
 
 [#setting locale=locale]
@@ -25,7 +26,7 @@
 </head>
 <body>
 <div class="feature-toggles">
-  <div class="layout--header">
+  <div class="layout--header theme-brand1">
     [#include "../../views/header/header.ftl"]
   </div>
   <div class="layout--content">
@@ -33,8 +34,12 @@
       [#assign toggleId="toggle-${feature_index}" /]
 
       <label class="feature--label" for="${toggleId}">
-        <span class="feature--name">${feature._name}</span>
-        <span class="feature--description">[@localize key="feature-toggles.created" locale=locale /] ${feature.createdDate.format("MEDIUM_DATE")} ${feature.createdDate.format("SHORT_TIME")}</span>
+        <span class="feature--name">${feature.name}</span>
+        <span class="feature--description">
+          [#if feature.createdDate?has_content]
+            [@localize key="feature-toggles.created" locale=locale /] ${feature.createdDate.format("MEDIUM_DATE")} ${feature.createdDate.format("SHORT_TIME")}
+          [/#if]
+        </span>
       </label>
       <form
         method="get"
@@ -43,7 +48,7 @@
         <input
           type="hidden"
           name="id"
-          value="${feature._name}">
+          value="${feature.id}">
 
         [@Toggle.render
           id=toggleId
@@ -67,7 +72,7 @@
         <input
           type="hidden"
           name="id"
-          value="${feature._name}">
+          value="${feature.id}">
 
         <button
           class="button theme-accent"

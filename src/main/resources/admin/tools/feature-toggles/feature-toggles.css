@@ -12,12 +12,18 @@
 
 
   .layout--header {
-    grid-area: header;
+    display: grid;
+    grid-column:  1 / span 3;
+    grid-template-columns: subgrid;
     --layout--header-background-color: var(--color-theme-base-default);
     background-color: var(--layout--header-background-color);
 
     @media (prefers-color-scheme: dark) {
       --layout--header-background-color: transparent;
+    }
+
+    .header {
+      grid-area: header;
     }
   }
 

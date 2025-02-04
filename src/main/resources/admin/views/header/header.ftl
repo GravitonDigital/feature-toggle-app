@@ -9,7 +9,10 @@
 
   [#if filters?size > 1]
     <div class="header--toolbar">
-      <div class="header--nav-label" id="header-nav-label">Select application</div>
+      <div class="header--nav-label" id="header-nav-label">
+        [@localize key="feature-toggles.selectSpace" locale=locale /]
+      </div>
+
       <nav class="header--filters" aria-labelledby="header-nav-label">
         [#list filters as filter]
           <a

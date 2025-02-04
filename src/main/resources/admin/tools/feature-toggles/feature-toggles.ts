@@ -1,6 +1,6 @@
 import { render } from "/lib/tineikt/freemarker";
-import { getSpaces } from "/lib/feature-toggles";
-import { /*ZonedDateTime,*/ LanguageRange } from "/lib/time";
+import { getSpaces, getFeatures } from "/lib/feature-toggles";
+import { ZonedDateTime, LanguageRange } from "/lib/time";
 import { getToolUrl } from "/lib/xp/admin";
 import type { Request, Response } from "@enonic-types/core";
 import type { FreemarkerParams } from "./feature-toggles.freemarker";
@@ -35,31 +35,24 @@ export function all(req: Request<RequestParams>): Response {
   } else if (!spaceKey) {
     return {
       redirect: getApplicationUrl({
-        spaceKey: spaces[0].key,
+        spaceKey: spaces[0]._name,
       }),
     };
   }
 
   const model: FreemarkerParams = {
     locale,
-    features: [],
-
-    /*getFeatures().map((feature) => {
+    features: getFeatures(spaceKey).map((feature) => {
       return {
         createdDate: ZonedDateTime.now(),
         ...feature,
       };
-    })*/ currentAppKey: "test",
-    filters: [
-      {
-        text: "Flupp",
-        url: "#",
-      },
-      {
-        text: "Snupp",
-        url: "#",
-      },
-    ],
+    }),
+    currentAppKey: spaceKey,
+    filters: spaces.map((space) => ({
+      text: space._name,
+      url: getApplicationUrl({ spaceKey: space._name }),
+    })),
   };
 
   return {
