@@ -12,7 +12,7 @@
     "@enonic-types/lib-portal": "^7.15.0-B2",
     "@enonic-types/lib-websocket": "^7.15.0-B2",
     "@item-enonic-types/global": "^7.15.0-A2",
-    "@item-enonic-types/lib-feature-toggles": "file:/home/tomaj/code/item/lib-xp-feature-toggles/item-enonic-types-lib-feature-toggles-0.5.0-SNAPSHOT6.tgz",
+    "@item-enonic-types/lib-feature-toggles": "file:/home/tomaj/code/item/lib-xp-feature-toggles/item-enonic-types-lib-feature-toggles-0.5.0-SNAPSHOT8.tgz",
     "@item-enonic-types/lib-freemarker": "^2.0.2",
     "@item-enonic-types/lib-time": "^1.2.0",
     "@item-enonic-types/nashorn-env": "^0.0.2",
