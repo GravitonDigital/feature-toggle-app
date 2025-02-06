@@ -19,6 +19,7 @@ const view = resolve("feature-toggles.ftl");
 
 type RequestParams = {
   params: {
+    locale?: string;
     spaceKey?: string;
     formId?: string;
     id?: string;
@@ -28,7 +29,7 @@ type RequestParams = {
 
 export function all(req: Request<RequestParams>): Response {
   const isAdmin = hasRole("system.admin") || hasRole(PRINCIPAL_KEY_ADMIN);
-  const locale = getLocale(req);
+  const locale = req.params.locale ?? getLocale(req);
   const spaceKey = req.params.spaceKey;
   const spaces = getSpaces();
 
@@ -67,6 +68,7 @@ export function all(req: Request<RequestParams>): Response {
 
   const model: FreemarkerParams = {
     locale,
+    spaceKey,
     userCanPublish: isAdmin,
     features: getFeatures(spaceKey).map((feature) => {
       return {
@@ -75,7 +77,6 @@ export function all(req: Request<RequestParams>): Response {
         isDraftAndMasterSame: isSameOnOtherBranch(feature),
       };
     }),
-    spaceKey,
     filters: spaces.map((space) => ({
       text: space._name,
       url: getApplicationUrl({ spaceKey: space._name }),

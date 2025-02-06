@@ -32,9 +32,11 @@
     gap: var(--spacing-12);
     grid-area: main;
     padding-block: var(--spacing-32);
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto;
   }
 
+
+  .feature-toggles--buttons,
   .feature-toggles--form-toggle,
   .feature-toggles--form-publish {
     display: flex;

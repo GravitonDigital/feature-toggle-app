@@ -1,4 +1,5 @@
 [#-- @ftlvariable name="locale" type="String" --]
+[#-- @ftlvariable name="spaceKey" type="String" --]
 [#-- @ftlvariable name="userCanPublish" type="Boolean" --]
 [#-- @ftlvariable name="title" type="String" --]
 [#-- @ftlvariable name="features" type="java.util.ArrayList" --]
@@ -35,10 +36,10 @@
   </div>
   <div class="layout--content">
     [#list features as feature]
-      [#assign toggleId="toggle-${feature.id}zz" /]
+      [#assign toggleId="toggle-${feature.id}" /]
 
       <label class="feature--label" for="${toggleId}">
-        <span class="feature--name">${feature.name}</span>
+        <span class="feature--name">${feature.name} </span>
         <span class="feature--description">
           [#if feature.createdDate?has_content]
             [@localize key="feature-toggles.created" locale=locale /]
@@ -51,7 +52,11 @@
         </span>
       </label>
 
-      <turbo-frame id="turbo-frame-toggle-${feature.id}" refresh="morph">
+      <turbo-frame
+        id="turbo-frame-toggle-${feature.id}"
+        refresh="morph"
+        class="feature-toggles--buttons">
+
         <submit-form-on-change>
           <form
             method="get"
@@ -61,6 +66,11 @@
               type="hidden"
               name="formId"
               value="toggle">
+
+            <input
+              type="hidden"
+              name="spaceKey"
+              value="${spaceKey}">
 
             <input
               type="hidden"
@@ -78,28 +88,33 @@
             </button>
           </form>
         </submit-form-on-change>
+
+        <form
+          method="get"
+          class="feature-toggles--form-publish">
+
+          <input
+            type="hidden"
+            name="id"
+            value="${feature.id}">
+
+          <input
+            type="hidden"
+            name="spaceKey"
+            value="${spaceKey}">
+
+          [#if !feature.isDraftAndMasterSame && userCanPublish!false]
+            <button
+              class="button theme-accent"
+              type="submit"
+              name="formId"
+              value="publish">
+
+              [@localize key="feature-toggles.publish" locale=locale /]
+            </button>
+          [/#if]
+        </form>
       </turbo-frame>
-
-      <form
-        method="get"
-        class="feature-toggles--form-publish">
-
-        <input
-          type="hidden"
-          name="id"
-          value="${feature.id}">
-
-        [#if !feature.isDraftAndMasterSame && userCanPublish!false]
-          <button
-            class="button theme-accent"
-            type="submit"
-            name="formId"
-            value="publish">
-
-            [@localize key="feature-toggles.publish" locale=locale /]
-          </button>
-        [/#if]
-      </form>
     [#else]
       <i>[@localize key="feature-toggles.noFeatures" locale=locale /]</i>
     [/#list]

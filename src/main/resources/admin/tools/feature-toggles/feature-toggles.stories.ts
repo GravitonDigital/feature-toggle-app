@@ -17,7 +17,7 @@ export default {
 export const featureToggles: StoryObj<FreemarkerParams> = {
   args: {
     locale: "no",
-    isAdmin: true,
+    userCanPublish: true,
     spaceKey: "first",
     filters: [
       {
