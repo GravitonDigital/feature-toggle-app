@@ -8,7 +8,7 @@ import {
   PRINCIPAL_KEY_ADMIN,
   type Feature,
 } from "/lib/feature-toggles";
-import { ZonedDateTime, LanguageRange } from "/lib/time";
+import { ZonedDateTime, LanguageRange, ZoneId } from "/lib/time";
 import { getToolUrl } from "/lib/xp/admin";
 import { hasRole } from "/lib/xp/auth";
 import type { Request, Response } from "@enonic-types/core";
@@ -32,6 +32,7 @@ export function all(req: Request<RequestParams>): Response {
   const locale = req.params.locale ?? getLocale(req);
   const spaceKey = req.params.spaceKey;
   const spaces = getSpaces();
+  const zoneId = ZoneId.systemDefault().getId();
 
   // Handle toggle form
   if (req.params.formId === "toggle" && req.params.id) {
@@ -50,6 +51,7 @@ export function all(req: Request<RequestParams>): Response {
     return {
       body: render<FreemarkerParams>(view, {
         locale,
+        zoneId,
         userCanPublish: isAdmin,
         features: [],
         filters: [],
@@ -68,12 +70,13 @@ export function all(req: Request<RequestParams>): Response {
 
   const model: FreemarkerParams = {
     locale,
+    zoneId,
     spaceKey,
     userCanPublish: isAdmin,
     features: getFeatures(spaceKey).map((feature) => {
       return {
         ...feature,
-        createdDate: ZonedDateTime.parse(feature.createdDate),
+        createdDate: ZonedDateTime.parse(feature.createdTime),
         isDraftAndMasterSame: isSameOnOtherBranch(feature),
       };
     }),

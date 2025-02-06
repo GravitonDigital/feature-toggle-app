@@ -1,4 +1,5 @@
 [#-- @ftlvariable name="locale" type="String" --]
+[#-- @ftlvariable name="zoneId" type="String" --]
 [#-- @ftlvariable name="spaceKey" type="String" --]
 [#-- @ftlvariable name="userCanPublish" type="Boolean" --]
 [#-- @ftlvariable name="title" type="String" --]
@@ -14,7 +15,7 @@
 [#setting locale=locale]
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${locale}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,7 +44,7 @@
         <span class="feature--description">
           [#if feature.createdDate?has_content]
             [@localize key="feature-toggles.created" locale=locale /]
-            <time datetime="${feature.createdDate.format()}">${feature.createdDate.format("MEDIUM_DATE")} ${feature.createdDate.format("SHORT_TIME")}</time>
+            <time datetime="${feature.createdDate.format()}">${feature.createdDate.format("MEDIUM_DATE", zoneId)} ${feature.createdDate.format("SHORT_TIME", zoneId)}</time>
           [/#if]
 
           [#if feature.description?has_content]

@@ -3,6 +3,7 @@ import type { ZonedDateTime } from "/lib/time";
 
 export type FreemarkerParams = Header & {
   locale: string;
+  zoneId: string;
   spaceKey: string;
   userCanPublish: boolean;
   features: {
