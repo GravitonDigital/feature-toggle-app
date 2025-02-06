@@ -5,6 +5,7 @@
 @import "components/button.css";
 @import "utils/label.css";
 @import "utils/icons.css";
+@import "utils/visibility.css";
 @import "../../admin/tools/feature-toggles/feature-toggles.css";
 @import "../../admin/views/header/header.css";
 @import "../../admin/views/toggle/toggle.css";

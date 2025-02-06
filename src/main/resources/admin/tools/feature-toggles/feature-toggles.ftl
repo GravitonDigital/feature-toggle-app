@@ -103,12 +103,15 @@
             name="spaceKey"
             value="${spaceKey}">
 
-          [#if !feature.isDraftAndMasterSame && userCanPublish!false]
+          <input
+            type="hidden"
+            name="formId"
+            value="publish">
+
+          [#if userCanPublish!false]
             <button
-              class="button theme-accent"
-              type="submit"
-              name="formId"
-              value="publish">
+              class="button theme-accent [#if feature.isDraftAndMasterSame]visibility-hidden[/#if]"
+              type="submit">
 
               [@localize key="feature-toggles.publish" locale=locale /]
             </button>
