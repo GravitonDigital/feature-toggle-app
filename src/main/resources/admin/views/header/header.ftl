@@ -7,8 +7,12 @@
     [@localize key="feature-toggles.displayName" locale=locale /]
   </h1>
 
-  [#if filters?size > 1]
-    <div class="header--toolbar">
+  <div class="header--toolbar">
+    [#if filters?size == 1]
+      <div class="header--toolbar-text">
+        [@localize key="feature-toggles.spaceKey" locale=locale /] <em>${spaceKey}</em>
+      </div>
+    [#elseif filters?size > 1]
       <div class="header--nav-label" id="header-nav-label">
         [@localize key="feature-toggles.selectSpace" locale=locale /]
       </div>
@@ -24,6 +28,6 @@
           </a>
         [/#list]
       </nav>
-    </div>
-  [/#if]
+    [/#if]
+  </div>
 </header>

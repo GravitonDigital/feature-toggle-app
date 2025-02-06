@@ -29,12 +29,11 @@
 
   .layout--content {
     display: grid;
-    gap: var(--spacing-12);
+    gap: var(--spacing-24);
     grid-area: main;
     padding-block: var(--spacing-32);
     grid-template-columns: 1fr auto;
   }
-
 
   .feature-toggles--buttons,
   .feature-toggles--form-toggle,
