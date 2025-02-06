@@ -10,7 +10,7 @@ export default {
       params: {
         template: `
           [#import "${id}" as Toggle /]
-          [@Toggle.render id=id name=name label=label /]
+          [@Toggle.render id=id name=name checked=checked disabled=disabled /]
         `,
       },
     },
@@ -22,5 +22,7 @@ export const toggle: StoryObj = {
     id: "feature",
     name: "feature",
     label: "Feature 1",
+    checked: false,
+    disabled: false,
   },
 };
