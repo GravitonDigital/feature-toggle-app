@@ -69,6 +69,15 @@ query {
 }
 ```
 
+## Roles
+
+You give your users one of the following two roles to give access to the admin tool:
+ 
+ 1. `"no.item.feature-toggles.admin"`
+ 2. `"no.item.feature-toggles.viewer"` _(is not allowed to interact with the toggles)_
+
+Users with the role `"system.admin"` also have the same rights as `"no.item.feature-toggles.admin"`.
+
 ## Deploying
 
 ### Building
