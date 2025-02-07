@@ -15,7 +15,7 @@ type GraphQLFeature = {
   name: string;
   enabled: boolean;
   description?: string;
-  createdDate: string;
+  createdTime: string;
 };
 
 export function extensions(graphQL: GraphQL): Extensions {
@@ -39,7 +39,7 @@ export function extensions(graphQL: GraphQL): Extensions {
           description: {
             type: graphQL.GraphQLString,
           },
-          createdDate: {
+          createdTime: {
             type: graphQL.GraphQLString,
           },
         },

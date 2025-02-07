@@ -8,9 +8,10 @@ import {
   PRINCIPAL_KEY_ADMIN,
   type Feature,
 } from "/lib/feature-toggles";
-import { ZonedDateTime, LanguageRange, ZoneId } from "/lib/time";
+import { ZonedDateTime, LanguageRange, ZoneId, Locale } from "/lib/time";
 import { getToolUrl } from "/lib/xp/admin";
 import { hasRole } from "/lib/xp/auth";
+import { getSupportedLocales } from "/lib/xp/i18n";
 import type { Request, Response } from "@enonic-types/core";
 import type { FreemarkerParams } from "./feature-toggles.freemarker";
 
@@ -93,9 +94,10 @@ export function all(req: Request<RequestParams>): Response {
 
 function getLocale(req: Request): string {
   const acceptLanguage = req.headers["Accept-Language"];
+
   if (acceptLanguage) {
-    const firstLanguageRange = LanguageRange.parse(acceptLanguage)[0];
-    return firstLanguageRange.getRange();
+    const languageRange = LanguageRange.parse(acceptLanguage);
+    return Locale.filterTags(languageRange, getSupportedLocales(["i18n/phrases"]))[0] ?? LOCALE_DEFAULT;
   }
 
   return LOCALE_DEFAULT;

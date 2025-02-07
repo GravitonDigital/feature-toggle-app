@@ -1,4 +1,9 @@
 {
+  "name": "xp-feature-toggles",
+  "version": "0.3.0",
+  "description": "Admin tool to toggle on and off features in your applications",
+  "license": "MIT",
+  "private": true,
   "devDependencies": {
     "@enonic-types/core": "^7.15.0-B2",
     "@enonic-types/global": "^7.15.0-B2",
@@ -12,9 +17,9 @@
     "@enonic-types/lib-portal": "^7.15.0-B2",
     "@enonic-types/lib-websocket": "^7.15.0-B2",
     "@item-enonic-types/global": "^7.15.0-A2",
-    "@item-enonic-types/lib-feature-toggles": "file:/home/tomaj/code/item/lib-xp-feature-toggles/item-enonic-types-lib-feature-toggles-0.4.0-RC2.tgz",
+    "@item-enonic-types/lib-feature-toggles": "^1.0.0",
     "@item-enonic-types/lib-freemarker": "^2.0.2",
-    "@item-enonic-types/lib-time": "^1.2.0",
+    "@item-enonic-types/lib-time": "^1.2.1",
     "@item-enonic-types/nashorn-env": "^0.0.2",
     "@itemconsulting/preset-enonic-xp": "^0.0.5",
     "@itemconsulting/xp-storybook-utils": "^0.0.7",
@@ -55,7 +60,6 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.23.0"
   },
-  "private": true,
   "scripts": {
     "build": "concurrently -c auto -g --timings npm:build:*",
     "build:assets": "node tsup/anyAssetFiles.js && npx tsup -d build/resources/main/assets || exit 0",
