@@ -1,0 +1,14 @@
+{
+  "include": [
+    "./**/*.ts",
+  ],
+  "exclude": [
+    "./**/*.d.ts",
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "lib": [
+      "DOM", // console, document, window, etc...
+    ],
+  },
+}

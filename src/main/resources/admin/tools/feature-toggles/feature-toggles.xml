@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<tool xmlns="urn:enonic:xp:model:1.0">
+  <display-name i18n="feature-toggles.displayName">Feature Toggles</display-name>
+  <description i18n="feature-toggles.description">View and manage features</description>
+  <allow>
+    <principal>role:system.admin</principal>
+    <principal>role:no.item.feature-toggles.admin</principal>
+    <principal>role:no.item.feature-toggles.viewer</principal>
+  </allow>
+</tool>

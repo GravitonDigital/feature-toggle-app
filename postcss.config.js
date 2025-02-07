@@ -1,13 +1,17 @@
-const env = require('./util/env');
-
-const isProd = env.prod;
-
-const plugins = Object.assign(
-    {
-        "postcss-normalize": {},
-        autoprefixer: {}
+module.exports = (ctx) => ({
+  map: ctx.options.map,
+  plugins: {
+    "postcss-import": {},
+    "postcss-url": {
+      url: "copy",
     },
-    isProd ? {cssnano: {}} : {}
-);
-
-module.exports = {plugins};
+    stylelint: {},
+    "postcss-reporter": {
+      clearReportedMessages: true,
+    },
+    "postcss-normalize": {},
+    "postcss-nesting": {},
+    autoprefixer: {},
+    cssnano: {},
+  },
+});

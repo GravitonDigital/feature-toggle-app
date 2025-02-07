@@ -1,0 +1,26 @@
+{
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "**/*.d.ts",
+    "**/*.stories.ts",
+    "assets/**/*.*",
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "/lib/tineikt/freemarker": ["../../../node_modules/@item-enonic-types/lib-freemarker"],
+      "/lib/xp/*": ["../../../node_modules/@enonic-types/lib-*"],
+      "/lib/*": ["./lib/*", "../../../node_modules/@item-enonic-types/lib-*"],
+      "/*": ["./*"],
+    },
+    "lib": ["ES5"],
+    "skipLibCheck": true,
+    "types": [
+      "@enonic-types/global",
+      "@item-enonic-types/global",
+      "@item-enonic-types/nashorn-env"
+    ],
+  },
+}
