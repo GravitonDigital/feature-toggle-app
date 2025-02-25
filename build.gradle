@@ -1,4 +1,5 @@
 plugins {
+  id 'maven-publish'
   id "com.enonic.xp.app" version "3.5.2"
   id "com.github.node-gradle.node" version "7.1.0"
 }
@@ -85,4 +86,25 @@ check.dependsOn npmCheck
 
 tasks.withType(Copy).configureEach {
   includeEmptyDirs = false
+}
+
+publishing {
+  repositories {
+    maven {
+      name = "itemtestRepository"
+      url = "https://repo.itemtest.no/releases"
+      credentials(PasswordCredentials)
+      authentication {
+        basic(BasicAuthentication)
+      }
+    }
+  }
+  publications {
+    maven(MavenPublication) {
+      from components.java
+      groupId group
+      artifactId projectName
+      version version
+    }
+  }
 }
