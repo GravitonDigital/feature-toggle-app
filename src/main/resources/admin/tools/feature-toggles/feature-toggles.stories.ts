@@ -60,3 +60,15 @@ export const featureToggles: StoryObj<FreemarkerParams> = {
     ],
   },
 };
+
+export const noFeatureToggles: StoryObj<FreemarkerParams> = {
+  args: {
+    locale: "no",
+    zoneId: "Europe/Oslo",
+    spaceKey: "first",
+    userCanPublish: true,
+    filters: [],
+    features: [],
+    noFeaturesMessage: `Ingen funksjonsbrytere er registrert! Du må installere <a href="https://github.com/ItemConsulting/lib-xp-feature-toggles?tab=readme-ov-file#gradle">feature-toggle biblioteket</a> i applikasjonen din for å <a href="https://github.com/ItemConsulting/lib-xp-feature-toggles?tab=readme-ov-file#create">opprette din første funksjonsbryter</a>.`,
+  },
+};

@@ -41,6 +41,15 @@
     display: flex;
     align-items: center;
   }
+
+  .feature-toggles--no-toggles {
+    text-wrap: balance;
+    line-height: 2rem;
+
+    a {
+      white-space: nowrap;
+    }
+  }
 }
 
 .feature--label {

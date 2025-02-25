@@ -13,4 +13,5 @@ export type FreemarkerParams = Header & {
     createdDate: ZonedDateTime;
     isDraftAndMasterSame: boolean;
   }[];
+  noFeaturesMessage: string;
 };

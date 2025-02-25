@@ -10,6 +10,7 @@
 [#-- @ftlvariable name="feature.enabled" type="Boolean" --]
 [#-- @ftlvariable name="feature.createdDate" type="java.time.ZonedDateTime" --]
 [#-- @ftlvariable name="feature.isDraftAndMasterSame" type="Boolean" --]
+[#-- @ftlvariable name="noFeaturesMessage" type="String" --]
 [#import "../../views/toggle/toggle.ftl" as Toggle]
 
 [#setting locale=locale]
@@ -120,7 +121,7 @@
         </form>
       </turbo-frame>
     [#else]
-      <i>[@localize key="feature-toggles.noFeatures" locale=locale /]</i>
+      <p class="feature-toggles--no-toggles">${noFeaturesMessage!""}</p>
     [/#list]
   </div>
 </div>

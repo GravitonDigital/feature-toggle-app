@@ -11,7 +11,7 @@ import {
 import { ZonedDateTime, LanguageRange, ZoneId, Locale } from "/lib/time";
 import { getToolUrl } from "/lib/xp/admin";
 import { hasRole } from "/lib/xp/auth";
-import { getSupportedLocales } from "/lib/xp/i18n";
+import { getSupportedLocales, localize } from "/lib/xp/i18n";
 import type { Request, Response } from "@enonic-types/core";
 import type { FreemarkerParams } from "./feature-toggles.freemarker";
 
@@ -34,6 +34,14 @@ export function all(req: Request<RequestParams>): Response {
   const spaceKey = req.params.spaceKey;
   const spaces = getSpaces();
   const zoneId = ZoneId.systemDefault().getId();
+  const noFeaturesMessage = localize({
+    key: "feature-toggles.noFeatures",
+    locale,
+    values: [
+      "https://github.com/ItemConsulting/lib-xp-feature-toggles?tab=readme-ov-file#gradle",
+      "https://github.com/ItemConsulting/lib-xp-feature-toggles?tab=readme-ov-file#create",
+    ],
+  });
 
   // Handle toggle form
   if (req.params.formId === "toggle" && req.params.id) {
@@ -57,6 +65,7 @@ export function all(req: Request<RequestParams>): Response {
         features: [],
         filters: [],
         spaceKey: "",
+        noFeaturesMessage,
       }),
     };
   }
@@ -85,6 +94,7 @@ export function all(req: Request<RequestParams>): Response {
       text: space._name,
       url: getApplicationUrl({ spaceKey: space._name }),
     })),
+    noFeaturesMessage,
   };
 
   return {
