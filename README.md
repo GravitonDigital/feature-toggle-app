@@ -8,7 +8,7 @@ Common usages of feature toggles are:
  - A feature switch (kill switch?) that can be used by the admins/editors
  - Enable a feature on the `"draft"` branch, but not on `"master"`.
 
-[![](https://repo.itemtest.no/api/badge/latest/releases/no/item/xp-feature-toggle)](https://repo.itemtest.no/#/releases/no/item/xp-feature-toggle)
+[![](https://repo.itemtest.no/api/badge/latest/releases/no/item/xp-feature-toggles)](https://repo.itemtest.no/#/releases/no/item/xp-feature-toggles)
 
 ![Feature toggle logo](src/main/resources/application.svg)
 
